@@ -5,6 +5,9 @@ import init from './init'
 import LifeGoalView from '../views/lifeGoalView'
 import MilestoneView from '../views/milestoneView'
 import GoalView from '../views/goalView'
+import Header from '../views/header'
+import LogInView from '../views/logInView'
+
 
 const app = function() {
   
@@ -17,19 +20,19 @@ const app = function() {
   		'*default': 'handleDefault'
   	}, 
   	handleLogIn: function (){
-  		console.log('you should log in here')
+  		ReactDOM.render(<LogInView/>, document.querySelector('.bodyContainer'))
   	}, 
   	handleLifeGoals: function(){
-  		ReactDOM.render(<LifeGoalView/>, document.querySelector('.container'))
+  		ReactDOM.render(<LifeGoalView/>, document.querySelector('.bodyContainer'))
   	}, 
   	handleMilestones: function(){
-  		ReactDOM.render(<MilestoneView/>, document.querySelector('.container'))
+  		ReactDOM.render(<MilestoneView/>, document.querySelector('.bodyContainer'))
   	}, 
   	handleGoalViews: function(){
-  		ReactDOM.render(<GoalView/>, document.querySelector('.container'))
+  		ReactDOM.render(<GoalView/>, document.querySelector('.bodyContainer'))
   	}, 
   	handleDefault: function(){
-  		location.hash='lifeGoals'
+  		location.hash='logIn'
   	}, 
   	initialize: function(){
 		Backbone.history.start()
