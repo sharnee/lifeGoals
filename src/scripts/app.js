@@ -10,7 +10,8 @@ import LogInView from '../views/logInView'
 
 
 const app = function() {
-  
+ 
+
   var Controller = Backbone.Router.extend({
   	routes: {
   		'logIn': 'handleLogIn', 

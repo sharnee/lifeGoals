@@ -8,8 +8,8 @@ var GoalCard = React.createClass({
 
 		render: function(){
 			return(
-				<form>
-					<input onSubmit = {this._insertLifeGoal} type = 'text' name='#LifeGoal'/>
+				<form onSubmit = {this._insertLifeGoal}>
+					<input  type = 'text' name='#LifeGoal'/>
 				</form>
 			)
 	}
