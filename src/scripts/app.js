@@ -4,9 +4,10 @@ import Backbone from 'backbone'
 import init from './init'
 import LifeGoalView from '../views/lifeGoalView'
 import MilestoneView from '../views/milestoneView'
-import GoalView from '../views/goalView'
+import GoalView from '../views/lifeGoalView'
 import Header from '../views/header'
 import LogInView from '../views/logInView'
+import User from './models/userModel'
 
 
 const app = function() {
@@ -36,8 +37,11 @@ const app = function() {
   		location.hash='logIn'
   	}, 
   	initialize: function(){
-		Backbone.history.start()
-	}	
+      Backbone.history.start()
+      if(!User.getCurrentUser()){
+       Backbone.history = 'logIn' 
+      }	
+	 }  	
   })
   var controller = new Controller
 }

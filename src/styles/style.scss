@@ -3,6 +3,43 @@
 	box-sizing: border-box;
 }
 //this is not changing the color or the shape of the button
+.formContainer { 
+  padding: auto;
+}
+.goalSubmit {
+  margin-top: 10px;
+  margin-left: 35%;
+  margin-bottom: 10px;
+
+}
+.goalForm {
+  width: 40%;
+  margin: auto;
+}
+.goalInputBar {
+  margin: auto;
+  padding: auto;
+}
+.addGoal {
+  background-color: #074E68;
+    border-radius: 5%;
+    background-origin: 1px solid black;
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: auto;
+}
+.goalInput{
+  width: 75%;
+
+}
+.logOut {
+  background-color: #074E68;
+    border-radius: 5%;
+    background-origin: 1px solid black;
+    display: block;
+    margin-top: 10px;
+    margin-left: auto;
+}
 .signInButton {
 	background-color: #074E68;
     border-radius: 5%;
@@ -38,8 +75,6 @@
     margin-top: 10px;
     margin: auto;
 }
-
-
 
 h1 {
 	font-size: 300px;

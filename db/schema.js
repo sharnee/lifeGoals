@@ -19,6 +19,17 @@ const usersSchema = new mongoose.Schema({
 
 })
 
+const goalSchema = new mongoose.Schema({
+  goal: {type: String, required: true},
+  notes: {type: String},
+  complete: {type: Boolean, default: false, required: true},
+  userID:  {type: String, required: true},
+  difficulty: {type: String},
+  createdAt: {type: Date, default: Date.now}
+})
+
+
 module.exports = {
-  User: mongoose.model('User', usersSchema)
+  User: mongoose.model('User', usersSchema),
+  Goal: mongoose.model('Goal', goalSchema)
 }

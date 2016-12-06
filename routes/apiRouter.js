@@ -3,6 +3,7 @@ const apiRouter = Router()
 let helpers = require('../config/helpers.js')
 
 let User = require('../db/schema.js').User
+let Goal = require('../db/schema.js').Goal
 
   
   apiRouter
@@ -46,6 +47,42 @@ let User = require('../db/schema.js').User
     })
 
     // Routes for a Model(resource) should have this structure
+apiRouter
+ .post('/goal', function(req, res){
+        var recordObj = new Goal(req.body)
+        recordObj.save(function(err) {
+          if (err) {
+            res.status(400).send(err)
+          }
+          else {
+            res.json(recordObj)
+          }
+        })
+      }) // read many
+      .get('/goal', function(req, res){
+        Goal.find(req.query, function(err, records) {
+          if (err) {
+            res.status(400).send(err)
+          }
+          else {
+            res.json(records)
+          }
+        })
+      })
+      // UPDATE ONE
+      .put('/goal/:_id', function(req, res){
+        Goal.findByIdAndUpdate(req.params._id, req.body, function(err, record) {
+            if (err) {
+              res.status(500).send(err)
+            }
+            else if (!record) {
+              res.status(400).send('no record found at that id')
+            }
+            else {
+              res.json(req.body)
+            }
+        })
+      })
 
 
 module.exports = apiRouter

@@ -73,7 +73,7 @@ var LogInView = React.createClass({
 			}
 		}
 	}, 
-	_signInUser: function(eventObj) {
+	signInUser: function(eventObj) {
 		eventObj.preventDefault()
 		var formEl = eventObj.target
 		ACTIONS._signInUser(
@@ -82,6 +82,14 @@ var LogInView = React.createClass({
 		)
 		formEl.reset()
 	},
+	_handleRegSubmit: function(eventObj){
+		ACTIONS.handleRegSubmit(eventObj)
+	}, 
+	_handleSignSubmit: function(eventObj){
+
+		console.log('handeling sign submit')
+		ACTIONS.handleSignSubmit(eventObj)
+	}, 
 	_registerUser: function(eventObj) {
 		eventObj.preventDefault()
 		var formEl = eventObj.target
@@ -90,13 +98,13 @@ var LogInView = React.createClass({
 			password: formEl.password.value,
 			firstName: formEl.firstName.value, 
 			lastName: formEl.lastName.value, 
-			phone: formEl.phone.value, 
+			phone: formEl.phone.value,
 			address: formEl.address.value
 		})
 		formEl.reset()
 	},
 
-	showSignIn: function() {
+	_showSignIn: function() {
 		console.log(this.state.signInClass, 'signInClass')
 		console.log(this.state.registerClass, 'registerClass')
 		if(this.state.signInClass === 'hidden'){
@@ -123,8 +131,8 @@ var LogInView = React.createClass({
 		return (
 			<div className = 'logInView'>
 				<Header/>
-				<button onClick ={this.showSignIn} className={this.state.signInButton + ' btn signInButton'} type="submit"> Sign In! </button>
-				<button onClick ={this.showSignIn} className={this.state.registerButton + ' btn registerButton'} type="submit"> Register! </button>
+				<button onClick ={this._showSignIn} className={this.state.signInButton + ' btn signInButton'} type="submit"> Sign In! </button>
+				<button onClick ={this._showSignIn} className={this.state.registerButton + ' btn registerButton'} type="submit"> Register! </button>
 				<section className= {this.state.registerClass + ' reg container'}>
 					<h1 className = 'registration title'> Let's Register</h1>
 					<form onSubmit = {this._registerUser}>
@@ -139,17 +147,17 @@ var LogInView = React.createClass({
 						<h3> Phone Number </h3> 
 						<input ref='phone' type='number' min='0' onKeyDown={this._handleKeydown} name = 'phone' placeholder = 'My phone number is...'/>
 						<h3> Password </h3> 
-						<input ref='password' name = 'password' placeholder = '' type = 'My secret password is...'/><br/>
+						<input ref='password' name = 'password' placeholder = '' /><br/>
 						<button className='registerButtons btn' type="submit"> Submit </button>
 					</form>
 				</section>
 				<section className = {this.state.signInClass + ' logIn container'} >
 					<h1 className = 'signIn title'> Let's Sign In</h1>
-					<form onSubmit = {this._signInUser}>
+					<form onSubmit = {this.signInUser}>
 						<h3> Email Address </h3> 
 						<input ref='signemail' onKeyDown={this._handleSignKeydown} name = 'email' placeholder = 'My email address is...'/><h3> Password </h3> 
 						<input ref='signPassword' onKeyDown={this._handleSignKeydown} name = 'password' placeholder = '' type = 'My secret password is...'/><br/>
-						<button className='submitButton btn' type="submit"> Submit </button>
+						<button className='submitButton btn' type="submit"> Sign In </button>
 					</form>
 				</section>
 			</div>
