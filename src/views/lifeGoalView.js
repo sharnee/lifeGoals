@@ -10,6 +10,7 @@ var LifeGoalView = React.createClass({
  		STORE.on('storeChanged',()=>{
  			this.setState(STORE._getData())
  		})
+ 		ACTIONS.fetchTasks()
  	}, 
  	componentWillUnmount: function(){
  		STORE.off('storeChanged')
@@ -32,7 +33,7 @@ var LifeGoalView = React.createClass({
 				<Header/>
 				<button onClick={this._handleLogOut} className= 'logOut btn'> Log Out! </button>
 				<button onClick={this._addGoal} className="add-goal btn">+</button>
-				{/*<GoalList />*/}
+				{/*<GoalList collection={this.state.lifeGoalCollection} />*/}
 				<NewGoalForm formVisible={this.state.goalFormVisible} />
 			</div>
 		)
@@ -52,6 +53,7 @@ const NewGoalForm = React.createClass({
 	},
 	render: function() {
 		var formClass = this.props.formVisible ? 'goalForm z-depth-5' : 'hide goalForm'
+		//on the submit of this form I want it to auto generate a goal card and add the data inputted from the form inot the card
 		return <div className='formContainer'>
 					<form onSubmit={this._handleSubmit} className={formClass}>
 						<h3>My Life Goal Is To... </h3>
@@ -63,6 +65,44 @@ const NewGoalForm = React.createClass({
 				</div>
 	}
 })
+
+var GoalList = React.createClass({
+	render: function(){
+		var myCollection = this.props.collection
+		return (
+			<ul>
+				<h3>All of {User.getCurrentUser().email}'s Goals!</h3>
+				{col.map(goalModel=> <Goal model={goalModel} />)}
+			</ul>
+		)
+	}
+})
+const Goal = React.createClass({
+
+	_deleteFave: function() {
+		ACTIONS.deleteFave(this.props.model)
+	},
+
+	render: function() {
+		var model = this.props.model,
+			fullName = model.get('first_name') + " " + model.get('last_name')
+		return (
+			<li>
+				<h3>{fullName}</h3>
+				<div className="profile">
+					<img src={`https://robohash.org/${fullName}?set=set2`} />
+					<div className="bio-deets">
+						<p>title: {model.get('title')} </p>
+						<p>state: {model.get('state_name')} </p>
+						<p>party: {model.get('party')} </p>
+					</div>
+					<button onClick={this._deleteFave}>UNFAVE!</button>
+				</div>
+			</li>
+		)
+	}
+})
+
 // var GoalCard = React.createClass({
 // 		_handleGoalInputBar: function(eventObj){
 // 			console.log('do this thing')
