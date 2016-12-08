@@ -48,8 +48,10 @@ let Goal = require('../db/schema.js').Goal
 
     // Routes for a Model(resource) should have this structure
 apiRouter
+//when goal saves it knows to save under the goal schema 
  .post('/goal', function(req, res){
         var recordObj = new Goal(req.body)
+        // this Goal is a model (like on the backbone model) of the goal schema
         recordObj.save(function(err) {
           if (err) {
             res.status(400).send(err)
@@ -83,6 +85,18 @@ apiRouter
             }
         })
       })
-
+          // Delete one
+    .delete('/goal/:_id', function(req,res) {
+      Goal.remove({_id: req.params._id}, function(err) {
+        if (err) {
+          res.status(500).json(err)
+        }
+        else {
+          res.json({
+            status: 'record with id' + req.params._id + 'successfully deleted!'
+          })
+        }
+      })
+    })
 
 module.exports = apiRouter

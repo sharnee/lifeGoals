@@ -19,7 +19,7 @@ var STORE = _.extend(Backbone.Events, {
 		return this.data
 	}, 
 	_initialize: function() {
-	this._get('LifeGoalCollection', 'MilestoneCollection').on('update',()=>{
+	this._get('lifeGoalCollection').on('update',()=>{
 		this._emitChange()
 		})
 	},

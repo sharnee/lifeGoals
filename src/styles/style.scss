@@ -3,6 +3,27 @@
 	box-sizing: border-box;
 }
 //this is not changing the color or the shape of the button
+.deleteGoal{
+  background-color: #26a69a;
+  border-radius: 5%;
+  background-origin: 1px solid black;
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  color: white;
+  padding: 10px;
+}
+.goalCard {
+    width: 40%;
+    display: inline-block;
+    margin: auto;
+}
+.goalInfo {
+  margin: 20px;
+
+
+}
 .formContainer { 
   padding: auto;
 }
@@ -22,11 +43,11 @@
 }
 .addGoal {
   background-color: #074E68;
-    border-radius: 5%;
-    background-origin: 1px solid black;
-    display: inline-block;
-    margin-top: 10px;
-    margin-left: auto;
+  border-radius: 5%;
+  background-origin: 1px solid black;
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: auto;
 }
 .goalInput{
   width: 75%;

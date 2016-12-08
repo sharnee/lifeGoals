@@ -147,7 +147,7 @@ var LogInView = React.createClass({
 						<h3> Phone Number </h3> 
 						<input ref='phone' type='number' min='0' onKeyDown={this._handleKeydown} name = 'phone' placeholder = 'My phone number is...'/>
 						<h3> Password </h3> 
-						<input ref='password' name = 'password' placeholder = '' /><br/>
+						<input ref='password' type='password' name ='password' placeholder = '' /><br/>
 						<button className='registerButtons btn' type="submit"> Submit </button>
 					</form>
 				</section>
@@ -156,7 +156,7 @@ var LogInView = React.createClass({
 					<form onSubmit = {this.signInUser}>
 						<h3> Email Address </h3> 
 						<input ref='signemail' onKeyDown={this._handleSignKeydown} name = 'email' placeholder = 'My email address is...'/><h3> Password </h3> 
-						<input ref='signPassword' onKeyDown={this._handleSignKeydown} name = 'password' placeholder = '' type = 'My secret password is...'/><br/>
+						<input ref='signPassword' type='password' onKeyDown={this._handleSignKeydown} name = 'password' placeholder = 'My secret password is...' /><br/>
 						<button className='submitButton btn' type="submit"> Sign In </button>
 					</form>
 				</section>

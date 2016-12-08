@@ -10,7 +10,7 @@ var LifeGoalView = React.createClass({
  		STORE.on('storeChanged',()=>{
  			this.setState(STORE._getData())
  		})
- 		ACTIONS.fetchTasks()
+ 		ACTIONS.fetchGoals()
  	}, 
  	componentWillUnmount: function(){
  		STORE.off('storeChanged')
@@ -33,7 +33,7 @@ var LifeGoalView = React.createClass({
 				<Header/>
 				<button onClick={this._handleLogOut} className= 'logOut btn'> Log Out! </button>
 				<button onClick={this._addGoal} className="add-goal btn">+</button>
-				{/*<GoalList collection={this.state.lifeGoalCollection} />*/}
+				<GoalList collection={this.state.lifeGoalCollection} />
 				<NewGoalForm formVisible={this.state.goalFormVisible} />
 			</div>
 		)
@@ -44,11 +44,10 @@ const NewGoalForm = React.createClass({
 	_handleSubmit: function(e) {
 		//for now it just hides the popout
 		e.preventDefault()
-		ACTIONS.saveGoal()
 		var formEl = e.target
-		console.log(formEl.value, 'this is the target')
-		console.log('handeling the formClass')
-		ACTIONS.handleSubmit(formEl.goalInputBar.value, formEl.goalNotes.value, User.getCurrentUser()._id)
+		ACTIONS.saveGoal(formEl.goalInputBar.value, formEl.goalNotes.value)
+		// console.log(formEl.value, 'this is the target')
+		// console.log('handeling the formClass')
 		formEl.reset()
 	},
 	render: function() {
@@ -66,39 +65,43 @@ const NewGoalForm = React.createClass({
 	}
 })
 
+
 var GoalList = React.createClass({
+	_makeGoalCard: function(goalModel){
+		return <Goal model={goalModel} key={goalModel.cid}/>
+	},
 	render: function(){
 		var myCollection = this.props.collection
+		console.log(myCollection, 'this is my collection')
 		return (
-			<ul>
-				<h3>All of {User.getCurrentUser().email}'s Goals!</h3>
-				{col.map(goalModel=> <Goal model={goalModel} />)}
-			</ul>
+			<div>
+				<div className='row'>
+					{myCollection.map(this._makeGoalCard)}
+				</div>
+			</div>
 		)
 	}
 })
 const Goal = React.createClass({
 
-	_deleteFave: function() {
-		ACTIONS.deleteFave(this.props.model)
+	_deleteGoal: function() {
+		ACTIONS.deleteGoal(this.props.model)
 	},
 
 	render: function() {
-		var model = this.props.model,
-			fullName = model.get('first_name') + " " + model.get('last_name')
+		var model = this.props.model
+		console.log(model, 'this is the model')
+		var	myGoal= model.get('_id') 
 		return (
-			<li>
-				<h3>{fullName}</h3>
-				<div className="profile">
-					<img src={`https://robohash.org/${fullName}?set=set2`} />
-					<div className="bio-deets">
-						<p>title: {model.get('title')} </p>
-						<p>state: {model.get('state_name')} </p>
-						<p>party: {model.get('party')} </p>
+		
+				<div className="goalCard  z-depth-5">
+					<div className="goalInfo ">
+						<p>Goal: {model.get('goal')} </p>
+						<p>Notes: {model.get('notes')} </p>
 					</div>
-					<button onClick={this._deleteFave}>UNFAVE!</button>
+					<button className='deleteGoal' onClick={this._deleteGoal}>Delete Goal!</button>
 				</div>
-			</li>
+
 		)
 	}
 })

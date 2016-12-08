@@ -18,7 +18,7 @@ const usersSchema = new mongoose.Schema({
   address: {type: String}
 
 })
-
+//this defines how the data needs to look 
 const goalSchema = new mongoose.Schema({
   goal: {type: String, required: true},
   notes: {type: String},
@@ -30,6 +30,7 @@ const goalSchema = new mongoose.Schema({
 
 
 module.exports = {
+  //exporting models based on the schems it can fetch and save
   User: mongoose.model('User', usersSchema),
   Goal: mongoose.model('Goal', goalSchema)
 }
