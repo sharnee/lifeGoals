@@ -6,26 +6,30 @@ import ACTIONS from '../actions'
 
 var LifeGoalView = React.createClass({
 	componentWillMount: function(){
- 		console.log('mounting')
+ 		// console.log('mounting')
  		STORE.on('storeChanged',()=>{
  			this.setState(STORE._getData())
  		})
- 		ACTIONS.fetchGoals()
+ 		ACTIONS._fetchGoals()
+
  	}, 
  	componentWillUnmount: function(){
  		STORE.off('storeChanged')
  	},
 	getInitialState: function(){
-		console.log('getting inital state')
+		// console.log('getting inital state')
 		return STORE._getData()
 	},
 	_addGoal: function() {
 		STORE._set({
-			goalFormVisible: true
+			goalFormVisible: true,
+	
+			
 		})
 	},
-	_handleLogOut: function(eventObj){
-		location.hash = "logIn"
+
+	_handleLogOut: function(){
+		ACTIONS.logout()
 	}, 
 	render: function(){
 		return(
@@ -57,8 +61,8 @@ const NewGoalForm = React.createClass({
 					<form onSubmit={this._handleSubmit} className={formClass}>
 						<h3>My Life Goal Is To... </h3>
 						<input ref='goalInputBar' type ='text' name='goalInputBar' placeholder='Add Life Goal Here'></input>
-						<h4> Notes </h4>
-						<input ref='goalNotes' type= 'text' name='goalNotes' placeholder= 'Put Notes'></input>
+						<h4> Notes to Self </h4>
+						<input ref='goalNotes' type= 'text' name='goalNotes' placeholder= 'Put Notes Here'></input>
 						<button className = "goalSubmit btn" type = "submit">submit</button>
 					</form>
 				</div>
@@ -72,10 +76,11 @@ var GoalList = React.createClass({
 	},
 	render: function(){
 		var myCollection = this.props.collection
-		console.log(myCollection, 'this is my collection')
+		// var listVis = myCollection.listVisible ? 'hide goalList' : 'goalList' 
+		// console.log(myCollection, 'this is my collection')
 		return (
 			<div>
-				<div className='row'>
+				<div >
 					{myCollection.map(this._makeGoalCard)}
 				</div>
 			</div>
@@ -88,53 +93,28 @@ const Goal = React.createClass({
 		ACTIONS.deleteGoal(this.props.model)
 	},
 
+	_goToMilestone: function(eventObj){
+	
+		ACTIONS.viewMilestone(this.props.model.get('_id'))
+	
+	},
+
 	render: function() {
 		var model = this.props.model
-		console.log(model, 'this is the model')
+		// console.log(model, 'this is the #lifeGoal model')
 		var	myGoal= model.get('_id') 
 		return (
 		
-				<div className="goalCard  z-depth-5">
-					<div className="goalInfo ">
-						<p>Goal: {model.get('goal')} </p>
-						<p>Notes: {model.get('notes')} </p>
+				<div  className="goalCard  z-depth-5">
+					<div onClick={this._goToMilestone} className="goalInfo " role="button" tabIndex="0">
+						<p>#LifeGoal: {model.get('goal')} </p>
+						<p>Note to Self: {model.get('notes')} </p>
 					</div>
 					<button className='deleteGoal' onClick={this._deleteGoal}>Delete Goal!</button>
 				</div>
-
 		)
 	}
 })
 
-// var GoalCard = React.createClass({
-// 		_handleGoalInputBar: function(eventObj){
-// 			console.log('do this thing')
-// 		}, 
-		
-// 		_insertLifeGoal: function(eventObj){
-// 			eventObj.preventDefault()
-// 			/*var value = eventObj.target.value
-// 			console.log(eventObj.target.value, 'life goal card goes here')*/
-// 			//generate a form
-// 			console.log('entering goal')
-// 			console.log(this.state.goalInput, 'this is the goal input')
-// 			if(this.state.goalInput === 'hidden'){
-// 				this.setState({
-// 					goalInput: 'visible'
-// 				})
-// 			}
-// 		}, 
-
-// 		render: function(){
-// 			return(
-// 				<section className={this.state.goalInput + 'goalContainer'} >
-// 					<form  onSubmit = {this._insertLifeGoal}>
-// 						<button className='addGoal btn' type='submit'> Add Goal </button>
-// 						<input onKeyDown={this._handleGoalInputBar} type= 'text' name='goalInputBar' placeholder= 'Add Life Goal Here'></input>
-// 					</form>
-// 				</section>
-// 			)
-// 	}
-// })
 export default LifeGoalView
 

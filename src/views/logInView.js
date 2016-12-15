@@ -62,7 +62,7 @@ var LogInView = React.createClass({
 		var value = eventObj.target.value
 		if (eventObj.keyCode === 13){
 			var nextRef = inputsToNextSign[eventObj.target.name];
-			console.log(nextRef, 'this is next ref')
+			// console.log(nextRef, 'this is next ref')
 			var currentRefs = inputsToNextSign[eventObj.target]
 			//throws errors / has bug
 			if (eventObj.target.name === 'email' && eventObj.target.value.indexOf('@' && '.') === -1){
@@ -105,8 +105,8 @@ var LogInView = React.createClass({
 	},
 
 	_showSignIn: function() {
-		console.log(this.state.signInClass, 'signInClass')
-		console.log(this.state.registerClass, 'registerClass')
+		// console.log(this.state.signInClass, 'signInClass')
+		// console.log(this.state.registerClass, 'registerClass')
 		if(this.state.signInClass === 'hidden'){
 			this.setState({
 			signInClass: 'visible',

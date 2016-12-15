@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react' 
 import ReactDOM from 'react-dom'
 import Backbone from 'backbone'
 import init from './init'
@@ -17,7 +17,7 @@ const app = function() {
   	routes: {
   		'logIn': 'handleLogIn', 
   		'lifeGoals': 'handleLifeGoals', 
-  		'mileStones': 'handleMilestones', 
+      'mileStones/:gid': 'handleMilestones', 
   		'goalView': 'handleGoalViews', 
   		'*default': 'handleDefault'
   	}, 
@@ -27,8 +27,8 @@ const app = function() {
   	handleLifeGoals: function(){
   		ReactDOM.render(<LifeGoalView/>, document.querySelector('.bodyContainer'))
   	}, 
-  	handleMilestones: function(){
-  		ReactDOM.render(<MilestoneView/>, document.querySelector('.bodyContainer'))
+  	handleMilestones: function(gid){
+  		ReactDOM.render(<MilestoneView gid= {gid}/>, document.querySelector('.bodyContainer'))
   	}, 
   	handleGoalViews: function(){
   		ReactDOM.render(<GoalView/>, document.querySelector('.bodyContainer'))
@@ -36,11 +36,15 @@ const app = function() {
   	handleDefault: function(){
   		location.hash='logIn'
   	}, 
-  	initialize: function(){
+  	initialize: function() {
+      var checkForUser = function(){
+          if(!User.getCurrentUser()){
+            location.hash = 'logIn' 
+          } 
+        }
+      checkForUser()
       Backbone.history.start()
-      if(!User.getCurrentUser()){
-       Backbone.history = 'logIn' 
-      }	
+      Backbone.history.on('route', checkForUser)
 	 }  	
   })
   var controller = new Controller

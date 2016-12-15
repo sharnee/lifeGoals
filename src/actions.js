@@ -1,10 +1,28 @@
 import User from './scripts/models/userModel'
+import Goal from './scripts/models/userModel'
 import LogInView from './views/logInView'
 import STORE from './store'
-import {LifeGoalModel, LifeGoalCollection} from './scripts/models/dataModels'
+import {LifeGoalModel, LifeGoalCollection, MilestoneCollection, MilestonelModel} from './scripts/models/dataModels'
 
 window.User = User
 var ACTIONS = {
+
+	_addMilestone: function(inputMilestone){
+		// console.log(inputMilestone)
+		var newMilestone = {
+			milestone: inputMilestone
+		}
+		var milestoneModel = new MilestonelModel(newMilestone)
+		// console.log(milestoneModel, 'this is the mile stone model')
+		var promise = milestoneModel.save()
+		promise.done(function(response){
+			STORE._get('milestoneCollection').add(milestoneModel)
+			STORE._emitChange()
+		})
+		promise.fail(function(response) {console.log(response)})
+	
+	},
+
 	deleteGoal: function(model) {
 		model.destroy()
 			.done(()=>alert(model.get('goal') + ' successfully deleted!'))
@@ -13,7 +31,7 @@ var ACTIONS = {
 	},
 
 
-	fetchGoals: function() {
+	_fetchGoals: function() {
 		// create a new instance of a LifeGoals collection
 		// fetch that collection. fetch() will return a promise
 		// in the .then() method of that promise, queue up a callback that will...
@@ -36,14 +54,51 @@ var ACTIONS = {
 				// console.log('I now have the data')
 		})
 		
-	
 	},
-	
+
+	_fetchOneGoal: function(goalId) {
+		var newIndividualModel = new LifeGoalModel()
+		// console.log(newIndividualModel, 'this is the individual model')
+		var myIndUser2 = Goal.getCurrentUser()._id
+		var promise = newIndividualModel.fetch({
+			data: {
+				_id: goalId
+			}
+		})
+		promise.then(
+			function(){
+				STORE._set({
+					lifeGoalModel: newIndividualModel
+				})
+				// console.log('I have a new model')
+			})
+	},
+
+	_fetchMileStones: function(){
+		var newMilestoneCollection = new MilestoneCollection()
+		// console.log(newMilestoneModel, 'this is the mile stone model')
+		// console.log(User.getCurrentUser())
+		var myIndUser = User.getCurrentUser()._id
+		// console.log(myIndUser, 'these are my individual')
+
+		var promise = newMilestoneCollection.fetch({
+			data:{
+				userID: myIndUser
+			}
+		})
+		promise.then(
+			function(){
+				STORE._set({
+					milestoneCollection: newMilestoneCollection
+				})
+			})
+	},
+
 	_register:  function(userData){
 		User.register(userData)
 		.then(
 			function(resp){
-				alert('Let\'s get goal setting!!!' )
+				// alert('Let\'s get goal setting!!!' )
 				ACTIONS._signInUser(userData.email, userData.password)
 			},
 			function(err){
@@ -56,11 +111,22 @@ var ACTIONS = {
 		User.login(email, password)
 		.then(
 			function(resp){
-				alert('you are now signed in')
+				// alert('you are now signed in')
 				location.hash = "lifeGoals"
 			}, 
 			function(err){
 				alert('please check that your user name and password are correct')
+			}
+		)
+	},
+
+	logout: function() {
+		//invoke User.logout, which returns a promise
+		User.logout()
+		.then(
+			function(){
+				alert('you are now signed out')
+				location.hash = 'logIn'
 			}
 		)
 	},
@@ -87,8 +153,11 @@ var ACTIONS = {
 			STORE._emitChange()
 		})
 		promise.fail(function(response) {console.log(response)})	
+	},
+
+	viewMilestone: function(gid){
+		location.hash = 'mileStones/' + gid
 	}
 }
-
 
 export default ACTIONS

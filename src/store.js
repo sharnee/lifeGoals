@@ -1,13 +1,16 @@
 import Backbone from 'backbone'
 import _ from 'underscore'
-import {LifeGoalCollection, MilestoneCollection} from './scripts/models/dataModels'
+import {LifeGoalCollection, MilestoneCollection, LifeGoalModel, MilestonelModel} from './scripts/models/dataModels'
 
 var STORE = _.extend(Backbone.Events, {
 
 	data: {
+		lifeGoalModel: new LifeGoalModel, 
 		lifeGoalCollection: new LifeGoalCollection,
 		milestoneCollection: new MilestoneCollection,
+		milestonelModel: new MilestonelModel,
 		goalFormVisible: false
+
 	}, 
 	_emitChange: function(){
 		this.trigger('storeChanged')
@@ -28,5 +31,6 @@ var STORE = _.extend(Backbone.Events, {
 		this._emitChange()
 	}
 })
-
+STORE._initialize()
+window.STORE = STORE
 export default STORE

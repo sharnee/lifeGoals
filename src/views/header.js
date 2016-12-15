@@ -6,8 +6,7 @@ var Header = React.createClass({
 			<header className="header">
 			<h1 className="headline">#LifeGoals<small> <br/> by Shar'nee Francis</small></h1>
 			<ul className="header-subnav">
-				<li><a href="#">#LifeGoals</a></li>
-				<li><a href="#" className="is-active">Milestone</a></li>
+				<li><a href="#lifeGoals">#LifeGoals</a></li>
 				<li><a target="_blank" href="http://zurb.com/responsive">Note To Self</a></li>
 			</ul>
 			</header>
