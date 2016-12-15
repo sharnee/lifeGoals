@@ -58,7 +58,10 @@ var MilestoneView = React.createClass({
 				<button onClick={this._handleLogOut} className= 'logOut btn'> Log Out! </button>
 				<button onClick={this._toGoalView} className= 'goalView btn'> Back to Goals! </button>
 				<IndividualLifeGoal model={this.state.lifeGoalModel} />
-				<MileStone milestone={this.state.milestoneCollection} />
+				{/*since we passed the gid thorough the router, to pass it down to the child component we have to pass it thorugh props */}
+				<MilestoneForm goal={this.state.lifeGoalModel.get('goal')} gid={this.props.gid} collection={this.state.milestoneCollection}/>
+				<MilstoneList collection={this.state.milestoneCollection}/> 
+
 				<Research/>
 			</div>
 		)
@@ -68,7 +71,9 @@ var MilestoneView = React.createClass({
 var IndividualLifeGoal = React.createClass({
 
 	render: function(){
+		console.log()
 		var myLifeGoalModel = this.props.model
+		// console.log(myLifeGoalModel, 'that other model')
 		var theGoal= myLifeGoalModel.get('goal')
 		var theNotes = myLifeGoalModel.get('notes')
 
@@ -76,7 +81,7 @@ var IndividualLifeGoal = React.createClass({
 		// console.log(myLifeGoalModel, 'this is my model')
 
 		return(
-			<div >
+			<div className='goalMileCard  z-depth-5'>
 				<p>#LifeGoal: {theGoal}</p>
 				<p>Note to Self: {theNotes} </p>
 			</div>
@@ -84,27 +89,72 @@ var IndividualLifeGoal = React.createClass({
 	}
 })
 
-var MileStone = React.createClass({
+
+
+
+var MilestoneForm = React.createClass({
+
 	_handleMilestoneInput: function(e){
 		e.preventDefault()
+
+		// console.log()
 		var inputEl = e.target
 		// console.log(inputEl)
 		var value = inputEl.value
 		// console.log('this is the value', value)
-		ACTIONS._addMilestone(inputEl.milestoneInput.value)
+		var gid = this.props.gid
+		var goal= this.props.goal
+		// console.log(goal)
+		// addMilestone takes, in order, the name of the milestone, the name of the corresponding goal, and the goal id.
+		ACTIONS._addMilestone(inputEl.milestoneInput.value, goal, gid )
 		// console.log('this is my value', value)
+		inputEl.reset()
 
 	}, 
 	render: function(){
-		var milestoneCollection = this.props.milestoneCollection
+		var milestoneCollection = this.props.collection
+		// console.log(milestoneCollection, 'this is the milestone collection ')
 		return(
-			<div className='milestoneContainer'>
+			<div className='milestoneContainer container'>
 				<form onSubmit={this._handleMilestoneInput} className= 'milestoneForm'>
 					<button className = "goalSubmit btn" type = "submit">Submit</button>
 					<input ref='milestoneInput' name='milestoneInput' placeholder='Put Milestone Here' type='text'/>
-					<CheckList/>
+					{/*<CheckList />*/}
 				</form>
 				<TextInput/>
+			</div>
+		)
+	}
+})
+
+var MilstoneList = React.createClass({
+	_makeMilestone: function(milestoneModel){
+		return (
+			<div>
+				<NewMileStoneCard model={milestoneModel} key={milestoneModel.cid} />
+			</div>
+		)
+	}, 
+	render: function(){
+		var milestoneCollection = this.props.collection
+		// console.log(milestoneCollection, 'mile stone list collection')
+		return(
+			<div>
+				{milestoneCollection.map(this._makeMilestone)}
+			</div>
+		)
+	}
+})
+
+const NewMileStoneCard = React.createClass({
+	render: function(){
+		var model = this.props.model
+		// console.log(model, 'this is the model')
+		var myMilestone = model.get('_id')
+		console.log(myMilestone, 'this is the id')
+		return (
+			<div className ='theMilestone'>	
+				{model.get('milestone')}
 			</div>
 		)
 	}

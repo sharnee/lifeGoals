@@ -103,7 +103,7 @@ apiRouter
 apiRouter
 // when goal saves it knows to save under the goal schema 
  .post('/milestones', function(req, res){
-    var recordObj = new Goal(req.body)
+    var recordObj = new Milestone(req.body)
     // this Goal is a model (like on the backbone model) of the goal schema
     recordObj.save(function(err) {
       if (err) {

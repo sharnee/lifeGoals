@@ -7,19 +7,24 @@ import {LifeGoalModel, LifeGoalCollection, MilestoneCollection, MilestonelModel}
 window.User = User
 var ACTIONS = {
 
-	_addMilestone: function(inputMilestone){
+	_addMilestone: function(inputMilestone, goal, gid){
 		// console.log(inputMilestone)
 		var newMilestone = {
-			milestone: inputMilestone
+			milestone: inputMilestone,
+			userID: User.getCurrentUser()._id, 
+			goal: goal, 
+			goalID: gid 
 		}
 		var milestoneModel = new MilestonelModel(newMilestone)
-		// console.log(milestoneModel, 'this is the mile stone model')
+		console.log(milestoneModel, 'this is the mile stone model ********')
 		var promise = milestoneModel.save()
 		promise.done(function(response){
 			STORE._get('milestoneCollection').add(milestoneModel)
+			console.log('this is is model saved')
 			STORE._emitChange()
 		})
-		promise.fail(function(response) {console.log(response)})
+		promise.fail(function(response) {console.log('this is not saved', response)})
+
 	
 	},
 

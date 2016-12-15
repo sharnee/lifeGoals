@@ -30,12 +30,12 @@ const goalSchema = new mongoose.Schema({
 
 //this defines how the data needs to look 
 const milestoneSchema = new mongoose.Schema({
-  goal: {type: String},
+  goal: {type: String, required: true},
   notes: {type: String},
   complete: {type: Boolean, default: false, required: true},
-  userID:  {type: String},
+  userID:  {type: String, required: true},
   difficulty: {type: String},
-  goalID: {type: String}, 
+  goalID: {type: String, required: true}, 
   createdAt: {type: Date, default: Date.now}, 
   milestone: {type: String}, 
   checkList: {type: String}
