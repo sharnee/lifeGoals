@@ -9,7 +9,7 @@ var MilestoneView = React.createClass({
 		STORE.on('storeChanged',()=>{
  			this.setState(STORE._getData())
  		})
- 		ACTIONS._fetchMileStones()
+ 		ACTIONS._fetchMileStones(this.props.gid)
  		ACTIONS._fetchOneGoal(this.props.gid)
 
 
@@ -138,7 +138,7 @@ var MilstoneList = React.createClass({
 		var milestoneCollection = this.props.collection
 		// console.log(milestoneCollection, 'mile stone list collection')
 		return(
-			<div>
+			<div className='milestone-wrapper'>
 				{milestoneCollection.map(this._makeMilestone)}
 			</div>
 		)
@@ -155,7 +155,7 @@ const NewMileStoneCard = React.createClass({
 		var myMilestone = model.get('_id')
 		// console.log(myMilestone, 'this is the id')
 		return (
-			<div className ='theMilestone'>
+			<div className ='goalCard  z-depth-5'>
 				<div>	
 					{model.get('milestone')}
 				</div>
@@ -192,7 +192,7 @@ var Research = React.createClass({
 	
 		return(
 			<div className='researchContainer'>
-				<p>hi</p>
+			
 			</div>
 		)
 	}

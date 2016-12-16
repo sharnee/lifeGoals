@@ -16,21 +16,19 @@ var ACTIONS = {
 			goalID: gid 
 		}
 		var milestoneModel = new MilestonelModel(newMilestone)
-		console.log(milestoneModel, 'this is the mile stone model ********')
+		console.log(milestoneModel, 'this is the mile stone model')
 		var promise = milestoneModel.save()
 		promise.done(function(response){
 			STORE._get('milestoneCollection').add(milestoneModel)
-			console.log('this is is model saved')
 			STORE._emitChange()
 		})
-		promise.fail(function(response) {console.log('this is not saved', response)})
-
+		promise.fail(function(response) {console.log(response)})
 	
 	},
 
 	deleteGoal: function(model) {
 		model.destroy()
-			.done(()=>alert(model.get('goal')))
+			.done(()=>alert(model.get('goal') + ' successfully deleted!'))
 			.fail(()=>alert(model.get('goal') + 'failed to delete'))
 		STORE._emitChange()
 	},
@@ -79,7 +77,7 @@ var ACTIONS = {
 			})
 	},
 
-	_fetchMileStones: function(){
+	_fetchMileStones: function(goalId){
 		var newMilestoneCollection = new MilestoneCollection()
 		// console.log(newMilestoneModel, 'this is the mile stone model')
 		// console.log(User.getCurrentUser())
@@ -88,7 +86,8 @@ var ACTIONS = {
 
 		var promise = newMilestoneCollection.fetch({
 			data:{
-				userID: myIndUser
+				userID: myIndUser,
+				goalID: goalId
 			}
 		})
 		promise.then(

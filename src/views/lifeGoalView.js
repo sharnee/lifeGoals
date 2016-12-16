@@ -80,7 +80,7 @@ var GoalList = React.createClass({
 		// console.log(myCollection, 'this is my collection')
 		return (
 			<div>
-				<div >
+				<div className='milestone-wrapper'>
 					{myCollection.map(this._makeGoalCard)}
 				</div>
 			</div>
