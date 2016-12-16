@@ -61,8 +61,7 @@ var MilestoneView = React.createClass({
 				{/*since we passed the gid thorough the router, to pass it down to the child component we have to pass it thorugh props */}
 				<MilestoneForm goal={this.state.lifeGoalModel.get('goal')} gid={this.props.gid} collection={this.state.milestoneCollection}/>
 				<MilstoneList collection={this.state.milestoneCollection}/> 
-
-				<Research/>
+				{/*<Research/>*/}
 			</div>
 		)
 	}
@@ -117,11 +116,11 @@ var MilestoneForm = React.createClass({
 		return(
 			<div className='milestoneContainer container'>
 				<form onSubmit={this._handleMilestoneInput} className= 'milestoneForm'>
-					<button className = "goalSubmit btn" type = "submit">Submit</button>
 					<input ref='milestoneInput' name='milestoneInput' placeholder='Put Milestone Here' type='text'/>
+					<button className = "goalSubmit btn" type = "submit">Submit</button>
 					{/*<CheckList />*/}
 				</form>
-				<TextInput/>
+				{/*<TextInput/>*/}
 			</div>
 		)
 	}
@@ -147,14 +146,20 @@ var MilstoneList = React.createClass({
 })
 
 const NewMileStoneCard = React.createClass({
+	_deleteGoal: function() {
+		ACTIONS.deleteGoal(this.props.model)
+	},
 	render: function(){
 		var model = this.props.model
 		// console.log(model, 'this is the model')
 		var myMilestone = model.get('_id')
-		console.log(myMilestone, 'this is the id')
+		// console.log(myMilestone, 'this is the id')
 		return (
-			<div className ='theMilestone'>	
-				{model.get('milestone')}
+			<div className ='theMilestone'>
+				<div>	
+					{model.get('milestone')}
+				</div>
+				<button className='deleteGoal' onClick={this._deleteGoal}>Delete Goal!</button>
 			</div>
 		)
 	}

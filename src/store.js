@@ -10,6 +10,7 @@ var STORE = _.extend(Backbone.Events, {
 		milestoneCollection: new MilestoneCollection,
 		milestonelModel: new MilestonelModel,
 		goalFormVisible: false
+		
 
 	}, 
 	_emitChange: function(){

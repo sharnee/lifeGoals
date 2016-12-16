@@ -30,7 +30,7 @@ var ACTIONS = {
 
 	deleteGoal: function(model) {
 		model.destroy()
-			.done(()=>alert(model.get('goal') + ' successfully deleted!'))
+			.done(()=>alert(model.get('goal')))
 			.fail(()=>alert(model.get('goal') + 'failed to delete'))
 		STORE._emitChange()
 	},
